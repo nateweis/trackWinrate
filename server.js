@@ -9,4 +9,8 @@ app.use(express.json());
 app.use(express.static('public'));
 
 
+const deckController = require('./controllers/deckRoutes');
+app.use('/deck', deckController)
+
+
 app.listen(port, () => console.log(`Hidee Hoe im on port ${port}`))
