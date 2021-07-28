@@ -12,14 +12,14 @@
 </head>
 <body ng-controller="WinController as wr">
     <div>
-        <span class="color red"></span>
-        <span class="color blue"></span>
-        <span class="color green "></span>
-        <span class="color black "></span>
-        <span class="color white"></span>
+        <span class="color red" ng-click="wr.addColor('red')"></span>
+        <span class="color blue" ng-click="wr.addColor('blue')"></span>
+        <span class="color green " ng-click="wr.addColor('green')"></span>
+        <span class="color black " ng-click="wr.addColor('balck')"></span>
+        <span class="color white" ng-click="wr.addColor('white')"></span>
     </div>
-    <input type="text" placeholder="Add a Deck">
-    <button>Submit</button>
+    <input type="text" placeholder="Add a Deck" ng-model="wr.name">
+    <button ng-click="wr.displayInputs()">Submit</button>
 
 </body>
 </html>
