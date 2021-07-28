@@ -18,10 +18,25 @@ app.controller('WinController', ['$http', function($http){
         }
     }
 
-    this.displayInputs = () => {
-        if(ctrl.name){
-            console.log(ctrl.name)
-            ctrl.name= ""
+    this.saveDeck = () => {
+        if(ctrl.name && ctrl.colorArr.length > 0){
+            let obj = {
+                name: ctrl.name,
+                color: {}
+            }
+            let color = ""
+            ctrl.colorArr.forEach(c => {color += `${c},`});
+            obj.color = color
+            
+            // console.log(obj)
+            $http({method:'POST', url: '/deck', data: obj})
+            .then(res => {
+                alert(res.data.message)
+                ctrl.name= ""
+                ctrl.colorArr = []
+                console.log(res.data)
+            })
+            .catch(err => console.log(err))
         }
     }
 
