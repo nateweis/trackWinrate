@@ -1,8 +1,18 @@
 const app = angular.module('WinRateApp', []);
 
-app.controller('WinController', ['$http', function($http){
+app.controller('WinController', ['$http', '$window', function($http, $window){
     const ctrl = this;
     this.colorArr = []
+    this.decks = []
+
+    $window.onload = () => {
+        $http({method:'GET', url: '/deck'})
+        .then(res => {
+            console.log(res.data)
+            ctrl.decks = res.data.decks
+        })
+        .catch(err => console.log(err))
+    }
 
     this.addColor = (str) => {
         let hasColor = false
@@ -20,9 +30,15 @@ app.controller('WinController', ['$http', function($http){
 
     this.saveDeck = () => {
         if(ctrl.name && ctrl.colorArr.length > 0){
+            let highestNum = 0
+            ctrl.decks.forEach(d =>{if(d.id >= highestNum) highestNum = d.id})
+            highestNum++
             let obj = {
                 name: ctrl.name,
-                color: {}
+                color: {},
+                id: highestNum,
+                wins : 0,
+                losses : 0
             }
             let color = ""
             ctrl.colorArr.forEach(c => {color += `${c},`});
@@ -34,7 +50,7 @@ app.controller('WinController', ['$http', function($http){
                 alert(res.data.message)
                 ctrl.name= ""
                 ctrl.colorArr = []
-                console.log(res.data)
+                ctrl.decks.push(obj)
             })
             .catch(err => console.log(err))
         }

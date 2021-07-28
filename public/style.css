@@ -17,3 +17,10 @@ body{
 .green{background-color: #054d05;}
 .black{background-color: #292828;}
 .white{background-color: #ffffff;}
+
+.deck{
+    width: 100px;
+    height: 300px;
+    border: 1px solid black;
+    margin: 20px;
+}
