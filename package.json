@@ -2,6 +2,9 @@
   "name": "trackwinrate",
   "version": "1.0.0",
   "description": "magic the gathering manual deck tracker",
+  "engines": {
+    "node": "12.4.0"
+  },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
