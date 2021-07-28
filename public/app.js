@@ -8,10 +8,20 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     $window.onload = () => {
         $http({method:'GET', url: '/deck'})
         .then(res => {
-            console.log(res.data)
-            ctrl.decks = res.data.decks
+            let decks = res.data.decks
+            
+            decks.forEach(d => {
+                let colors = d.color.split(",")
+                colors.pop()
+                d.color = colors
+            })
+
+            ctrl.decks = decks
+            console.log(ctrl.decks)
         })
         .catch(err => console.log(err))
+
+
     }
 
     this.addColor = (str) => {
@@ -48,9 +58,11 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
             $http({method:'POST', url: '/deck', data: obj})
             .then(res => {
                 alert(res.data.message)
+                obj.color = ctrl.colorArr
+
+                ctrl.decks.push(obj)
                 ctrl.name= ""
                 ctrl.colorArr = []
-                ctrl.decks.push(obj)
             })
             .catch(err => console.log(err))
         }

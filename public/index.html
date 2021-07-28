@@ -25,12 +25,15 @@
 
     <div>
         <h3>Select Deck Colors</h3>
-        <span ng-repeat="color in wr.colorArr" class="color {{color}} " ng-click="wr.removeColor(color)"></span>
+        <span ng-repeat="color in wr.colorArr" class="color {{color}} " ng-click="wr.removeColor(color)">X</span>
     </div>
 
     <hr>
     <h2>Your Decks</h2>
-    <div ng-repeat="deck in wr.decks" class="deck"></div>
+    <div ng-repeat="deck in wr.decks" class="deck">
+        <h3>{{deck.name}}</h3>
+        <span ng-repeat="c in deck.color" class="color {{c}} "></span>
+    </div>
 
 </body>
 </html>
