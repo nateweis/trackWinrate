@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="WinRateApp">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Win Tracker</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="app.js"></script>
 </head>
-<body>
+<body ng-controller="WinController as wr">
+    <div>
+        <span class="color red"></span>
+        <span class="color blue"></span>
+        <span class="color green "></span>
+        <span class="color black "></span>
+        <span class="color white"></span>
+    </div>
     <input type="text" placeholder="Add a Deck">
     <button>Submit</button>
+
 </body>
 </html>

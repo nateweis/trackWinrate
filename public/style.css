@@ -1,0 +1,19 @@
+body{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: rgb(180, 174, 174);
+}
+.color{
+    border: 2px solid black;
+    border-radius: 9999px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+.red{background-color: #e63b3b;}
+.blue{background-color: #3636f7;}
+.green{background-color: #054d05;}
+.black{background-color: #292828;}
+.white{background-color: #ffffff;}
