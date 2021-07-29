@@ -34,6 +34,8 @@
         <div class="deck">
             <h3>{{deck.name}}</h3>
             <span ng-repeat="c in deck.color" class="color {{c}} "></span>
+            <h5>Winrate out of <span>{{deck.wins + deck.losses}}</span> matches</h5>
+            <p>% {{(deck.wins / (deck.wins + deck.losses)) * 100 | number:2}}</p>
         </div>
         <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.wins}}
         <button ng-click="wr.changeRecord('loss', deck.id)">Loss</button> {{deck.losses}}
