@@ -54,7 +54,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 id: highestNum,
                 wins : 0,
                 losses : 0,
-                wl_logg: '[]'
+                wl_logg: '[{"w":0,"l":0}]'
             }
             let color = ""
             ctrl.colorArr.forEach(c => {color += `${c},`});
@@ -64,7 +64,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
             $http({method:'POST', url: '/deck', data: obj})
             .then(res => {
                 obj.color = ctrl.colorArr
-                obj.wl_logg = []
+                obj.wl_logg = [{w :0, l: 0}]
 
                 ctrl.decks.unshift(obj)
                 ctrl.name= ""
@@ -93,10 +93,9 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 // adding new record to a logg
                 let obj = {w: ctrl.decks[i].wins, l :ctrl.decks[i].losses}
                 ctrl.decks[i].wl_logg.unshift(obj)
-                if(ctrl.decks[i].wl_logg.length > 5) ctrl.decks[i].wl_logg.pop() //keeping only 5 logs stored max
+                if(ctrl.decks[i].wl_logg.length > 6) ctrl.decks[i].wl_logg.pop() //keeping only 5 logs stored max
                 ctrl.decks[i].wl_logg = JSON.stringify(ctrl.decks[i].wl_logg)
-                console.log(ctrl.decks[i])
-                
+
 
                 $http({method:'PUT', url: '/deck', data: ctrl.decks[i]})
                 .then(res => ctrl.decks[i].wl_logg = JSON.parse(ctrl.decks[i].wl_logg))
@@ -107,7 +106,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     }
 
     // ///////////////////////////////////
-    // changing the win/loss record
+    // deleteing deck (delete)
     // //////////////////////////////////
     this.deleteDeck = (id) => {
         if(confirm("Are you sure you want to delete deck? Deleting deck can not be undone.")){
@@ -117,6 +116,31 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 for(let i = 0; i < ctrl.decks.length; i++) {if(ctrl.decks[i].id === id) ctrl.decks.splice(i, 1)}
             })
             .catch(err => console.log(err))
+        }
+    }
+
+    // ///////////////////////////////////
+    // undo w/l update
+    // //////////////////////////////////
+    this.undo = (id) => {
+        for(let i = 0; i < ctrl.decks.length; i++){
+            if(ctrl.decks[i].id === id){
+                let dRef = ctrl.decks[i]
+                
+                if(dRef.wl_logg.length > 1){
+                    dRef.wl_logg.shift()
+                    dRef.wins = dRef.wl_logg[0].w
+                    dRef.losses = dRef.wl_logg[0].l
+                    ctrl.decks[i].wl_logg = JSON.stringify(ctrl.decks[i].wl_logg)
+                              
+
+                    $http({method:'PUT', url: '/deck', data: ctrl.decks[i]})
+                    .then(res => ctrl.decks[i].wl_logg = JSON.parse(ctrl.decks[i].wl_logg))
+                    .catch(err => console.log(err))
+
+                }
+                else{alert("Data Logg Empty")}
+            }
         }
     }
 
