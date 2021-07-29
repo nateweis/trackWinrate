@@ -40,7 +40,7 @@
                     <span ng-repeat="c in deck.color" class="color {{c}} "></span>
                     <h5>Winrate out of <span>{{deck.wins + deck.losses}}</span> matches</h5>
                     <p
-                    class="{{(deck.wins + deck.losses) > 3 ? (deck.wins / (deck.wins + deck.losses)) * 100 >= 55 ? 'good' : 'bad' : ''}}"
+                    class="{{(deck.wins + deck.losses) > 4 ? (deck.wins / (deck.wins + deck.losses)) * 100 >= 55 ? 'good' : 'bad' : ''}}"
                     >% {{(deck.wins / (deck.wins + deck.losses)) * 100 | number:2}}</p>
                 </div>
                 <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.wins}}
