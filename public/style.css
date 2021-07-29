@@ -1,10 +1,15 @@
+@font-face {
+    font-family: "Eczar";
+    src: url('./Eczar/Eczar-Regular.ttf');
+}
+
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 .container{
-    /* height: 100vh; */
+    min-height: 100vh;
     background: url('./imgs/mana-and-logo.png');
     background-repeat: no-repeat;
     background-size: 800px 100% ;
@@ -13,6 +18,11 @@
     background-color: rgba(7, 7, 7, 0.377);
     background-blend-mode: multiply;
     color: rgb(231, 225, 225);
+    font-family: "Eczar";
+    text-align: center;
+}
+button, input{
+    font-family:"Eczar" ;
 }
 .flex{
     display: flex;
@@ -27,6 +37,7 @@
     display: inline-block;
     cursor: pointer;
     text-align: center;
+    margin: 0 3px;
 }
 .red{background-color: #e63b3b;}
 .blue{background-color: #3636f7;}
