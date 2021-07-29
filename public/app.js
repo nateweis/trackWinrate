@@ -57,15 +57,16 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
             // console.log(obj)
             $http({method:'POST', url: '/deck', data: obj})
             .then(res => {
-                alert(res.data.message)
                 obj.color = ctrl.colorArr
 
-                ctrl.decks.push(obj)
+                ctrl.decks.unshift(obj)
                 ctrl.name= ""
                 ctrl.colorArr = []
             })
             .catch(err => console.log(err))
         }
+        else if (!ctrl.name)alert("Need to name the deck")
+        else if (ctrl.colorArr.length <= 0)alert("Need to select deck colors")
     }
 
 }] );
