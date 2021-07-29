@@ -77,8 +77,20 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     // //////////////////////////////////
 
     this.changeRecord = (str, id) => {
-        console.log(str)
-        console.log(id)
+        for(let i = 0; i < ctrl.decks.length; i++){
+            if(ctrl.decks[i].id === id){
+                if(str === 'win') ctrl.decks[i].wins += 1
+                else if(str === 'loss') ctrl.decks[i].losses += 1
+                else if(str === 'wipe') {
+                    ctrl.decks[i].losses = 0;
+                    ctrl.decks[i].wins = 0;
+                }
+
+                $http({method:'PUT', url: '/deck', data: ctrl.decks[i]})
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err))
+            }
+        }
     }
 
 }] );
