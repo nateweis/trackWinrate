@@ -38,6 +38,9 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
         }
     }
 
+    // ///////////////////////////////////
+    // Add a New Deck (post)
+    // //////////////////////////////////
     this.saveDeck = () => {
         if(ctrl.name && ctrl.colorArr.length > 0){
             let highestNum = 0
@@ -67,6 +70,15 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
         }
         else if (!ctrl.name)alert("Need to name the deck")
         else if (ctrl.colorArr.length <= 0)alert("Need to select deck colors")
+    }
+
+    // ///////////////////////////////////
+    // changing the win/loss record
+    // //////////////////////////////////
+
+    this.changeRecord = (str, id) => {
+        console.log(str)
+        console.log(id)
     }
 
 }] );

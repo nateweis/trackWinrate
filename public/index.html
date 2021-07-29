@@ -30,9 +30,14 @@
 
     <hr>
     <h2>Your Decks</h2>
-    <div ng-repeat="deck in wr.decks" class="deck">
-        <h3>{{deck.name}}</h3>
-        <span ng-repeat="c in deck.color" class="color {{c}} "></span>
+    <div ng-repeat="deck in wr.decks">
+        <div class="deck">
+            <h3>{{deck.name}}</h3>
+            <span ng-repeat="c in deck.color" class="color {{c}} "></span>
+        </div>
+        <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.wins}}
+        <button ng-click="wr.changeRecord('loss', deck.id)">Loss</button> {{deck.losses}}
+        <button ng-click="wr.changeRecord('wipe', deck.id)">Clear Record</button>
     </div>
 
 </body>

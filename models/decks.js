@@ -12,7 +12,14 @@ const getAllDecks = (req, res) => {
     .catch(err => res.json({message: "ERR getting the decks", err, status: 402}))
 }
 
+const changeRecord = (req, res) => {
+    db.none('UPDATE decks SET wins = ${wins}, losses = ${losses}, last_update = NOW() WHERE id = ${id}', req.body)
+    .then(() => res.json({message: "Updated Win/Loss Record", status: 200}))
+    .catch(err => res.json({message: "ERR Updating the Win/Loss Record", err, status: 402}))
+}
+
 module.exports = {
     addDeck,
-    getAllDecks
+    getAllDecks,
+    changeRecord
 }
