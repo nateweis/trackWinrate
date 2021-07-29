@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Win Tracker</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="./fa-css/all.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="app.js"></script>
-    <script src="https://kit.fontawesome.com/cd26aa8760.js" crossorigin="anonymous"></script>
+    
 </head>
 <body ng-controller="WinController as wr">
 
@@ -18,8 +17,8 @@
         <div>
             <h3>Select Deck Colors</h3>
             <span class="color white" ng-click="wr.addColor('white')"></span>
-            <span class="color red" ng-click="wr.addColor('red')"></span>
             <span class="color blue" ng-click="wr.addColor('blue')"></span>
+            <span class="color red" ng-click="wr.addColor('red')"></span>
             <span class="color green " ng-click="wr.addColor('green')"></span>
             <span class="color black " ng-click="wr.addColor('black')"></span>
         </div>

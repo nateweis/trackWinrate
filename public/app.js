@@ -14,6 +14,8 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 let colors = d.color.split(",")
                 colors.pop()
                 d.color = colors
+
+                d.wl_logg = JSON.parse(d.wl_logg)
             })
 
             ctrl.decks = decks
@@ -51,7 +53,8 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 color: {},
                 id: highestNum,
                 wins : 0,
-                losses : 0
+                losses : 0,
+                wl_logg: '[]'
             }
             let color = ""
             ctrl.colorArr.forEach(c => {color += `${c},`});
@@ -61,6 +64,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
             $http({method:'POST', url: '/deck', data: obj})
             .then(res => {
                 obj.color = ctrl.colorArr
+                obj.wl_logg = []
 
                 ctrl.decks.unshift(obj)
                 ctrl.name= ""
@@ -86,11 +90,20 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                     ctrl.decks[i].wins = 0;
                 }
 
+                // adding new record to a logg
+                let obj = {w: ctrl.decks[i].wins, l :ctrl.decks[i].losses}
+                ctrl.decks[i].wl_logg.unshift(obj)
+                if(ctrl.decks[i].wl_logg.length > 5) ctrl.decks[i].wl_logg.pop() //keeping only 5 logs stored max
+                ctrl.decks[i].wl_logg = JSON.stringify(ctrl.decks[i].wl_logg)
+                console.log(ctrl.decks[i])
+                
+
                 $http({method:'PUT', url: '/deck', data: ctrl.decks[i]})
-                .then(res => console.log(res.data))
+                .then(res => ctrl.decks[i].wl_logg = JSON.parse(ctrl.decks[i].wl_logg))
                 .catch(err => console.log(err))
             }
         }
+        console.log(ctrl.decks)
     }
 
     // ///////////////////////////////////

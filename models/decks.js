@@ -1,7 +1,7 @@
 const db = require('../db/db_connection');
 
 const addDeck = (req, res) => {
-    db.none('INSERT INTO decks(id, name, wins, losses, color, last_update)VALUES(${id}, ${name}, 0, 0, ${color}, NOW())', req.body)
+    db.none('INSERT INTO decks(id, name, wins, losses, color, last_update, wl_logg)VALUES(${id}, ${name}, 0, 0, ${color}, NOW(), ${wl_logg})', req.body)
     .then(() => res.json({message: "The Deck Has Been Saved", status: 200}))
     .catch(err => res.json({message: "ERR On Deck Save", err, status: 402}))
 }
@@ -19,7 +19,7 @@ const removeDeck = (req, res) => {
 }
 
 const changeRecord = (req, res) => {
-    db.none('UPDATE decks SET wins = ${wins}, losses = ${losses}, last_update = NOW() WHERE id = ${id}', req.body)
+    db.none('UPDATE decks SET wins = ${wins}, losses = ${losses}, last_update = NOW(), wl_logg = ${wl_logg} WHERE id = ${id}', req.body)
     .then(() => res.json({message: "Updated Win/Loss Record", status: 200}))
     .catch(err => res.json({message: "ERR Updating the Win/Loss Record", err, status: 402}))
 }
