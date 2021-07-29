@@ -60,6 +60,15 @@ button, input{
     box-shadow: 0 0 15px rgb(231, 225, 225);
 }
 
+.icon-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+.icon{
+    fill:rgb(231, 225, 225)
+}
+
 @media(min-width: 810px){
     .container{
         background-size: 100% 100% ;

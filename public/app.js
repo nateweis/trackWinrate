@@ -97,12 +97,14 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     // changing the win/loss record
     // //////////////////////////////////
     this.deleteDeck = (id) => {
-        $http({method:'DELETE', url: '/deck/' + id})
-        .then(res => {
-            console.log(res.data)
-            for(let i = 0; i < ctrl.decks.length; i++) {if(ctrl.decks[i].id === id) ctrl.decks.splice(i, 1)}
-        })
-        .catch(err => console.log(err))
+        if(confirm("Are you sure you want to delete deck? Deleting deck can not be undone.")){
+            $http({method:'DELETE', url: '/deck/' + id})
+            .then(res => {
+                console.log(res.data)
+                for(let i = 0; i < ctrl.decks.length; i++) {if(ctrl.decks[i].id === id) ctrl.decks.splice(i, 1)}
+            })
+            .catch(err => console.log(err))
+        }
     }
 
 }] );
