@@ -33,6 +33,8 @@
 .green{background-color: #054d05;}
 .black{background-color: #292828;}
 .white{background-color: #ffffff;}
+.good{color: green;}
+.bad{color: red;}
 
 .deck-holder{
     margin: 15px 0;
