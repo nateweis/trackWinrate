@@ -11,36 +11,41 @@
     <script src="app.js"></script>
 </head>
 <body ng-controller="WinController as wr">
-    <div>
-        <h3>Select Deck Colors</h3>
-        <span class="color white" ng-click="wr.addColor('white')"></span>
-        <span class="color red" ng-click="wr.addColor('red')"></span>
-        <span class="color blue" ng-click="wr.addColor('blue')"></span>
-        <span class="color green " ng-click="wr.addColor('green')"></span>
-        <span class="color black " ng-click="wr.addColor('black')"></span>
-    </div>
 
-    <input type="text" placeholder="Add a Deck" ng-model="wr.name">
-    <button ng-click="wr.saveDeck()">Submit</button>
-
-    <div>
-        <h3>Select Deck Colors</h3>
-        <span ng-repeat="color in wr.colorArr" class="color {{color}} " ng-click="wr.removeColor(color)">X</span>
-    </div>
-
-    <hr>
-    <h2>Your Decks</h2>
-    <div ng-repeat="deck in wr.decks">
-        <div class="deck">
-            <div><button ng-click="wr.deleteDeck(deck.id)">Delete Deck</button></div>
-            <h3>{{deck.name}}</h3>
-            <span ng-repeat="c in deck.color" class="color {{c}} "></span>
-            <h5>Winrate out of <span>{{deck.wins + deck.losses}}</span> matches</h5>
-            <p>% {{(deck.wins / (deck.wins + deck.losses)) * 100 | number:2}}</p>
+    <div class="container">
+        <div>
+            <h3>Select Deck Colors</h3>
+            <span class="color white" ng-click="wr.addColor('white')"></span>
+            <span class="color red" ng-click="wr.addColor('red')"></span>
+            <span class="color blue" ng-click="wr.addColor('blue')"></span>
+            <span class="color green " ng-click="wr.addColor('green')"></span>
+            <span class="color black " ng-click="wr.addColor('black')"></span>
         </div>
-        <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.wins}}
-        <button ng-click="wr.changeRecord('loss', deck.id)">Loss</button> {{deck.losses}}
-        <button ng-click="wr.changeRecord('wipe', deck.id)">Clear Record</button>
+
+        <input type="text" placeholder="Add a Deck" ng-model="wr.name">
+        <button ng-click="wr.saveDeck()">Submit</button>
+
+        <div>
+            <h3>Select Deck Colors</h3>
+            <span ng-repeat="color in wr.colorArr" class="color {{color}} " ng-click="wr.removeColor(color)">X</span>
+        </div>
+
+        <hr>
+        <h2>Your Decks</h2>
+        <div class="flex">
+            <div ng-repeat="deck in wr.decks" class="deck-holder">
+                <div class="deck">
+                    <div><button ng-click="wr.deleteDeck(deck.id)">Delete Deck</button></div>
+                    <h3>{{deck.name}}</h3>
+                    <span ng-repeat="c in deck.color" class="color {{c}} "></span>
+                    <h5>Winrate out of <span>{{deck.wins + deck.losses}}</span> matches</h5>
+                    <p>% {{(deck.wins / (deck.wins + deck.losses)) * 100 | number:2}}</p>
+                </div>
+                <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.wins}}
+                <button ng-click="wr.changeRecord('loss', deck.id)">Loss</button> {{deck.losses}}
+                <button ng-click="wr.changeRecord('wipe', deck.id)">Clear Record</button>
+            </div>
+        </div>
     </div>
 
 </body>
