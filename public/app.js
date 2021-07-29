@@ -73,7 +73,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     }
 
     // ///////////////////////////////////
-    // changing the win/loss record
+    // changing the win/loss record (put)
     // //////////////////////////////////
 
     this.changeRecord = (str, id) => {
@@ -91,6 +91,18 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 .catch(err => console.log(err))
             }
         }
+    }
+
+    // ///////////////////////////////////
+    // changing the win/loss record
+    // //////////////////////////////////
+    this.deleteDeck = (id) => {
+        $http({method:'DELETE', url: '/deck/' + id})
+        .then(res => {
+            console.log(res.data)
+            for(let i = 0; i < ctrl.decks.length; i++) {if(ctrl.decks[i].id === id) ctrl.decks.splice(i, 1)}
+        })
+        .catch(err => console.log(err))
     }
 
 }] );

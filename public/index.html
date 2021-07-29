@@ -32,6 +32,7 @@
     <h2>Your Decks</h2>
     <div ng-repeat="deck in wr.decks">
         <div class="deck">
+            <div><button ng-click="wr.deleteDeck(deck.id)">Delete Deck</button></div>
             <h3>{{deck.name}}</h3>
             <span ng-repeat="c in deck.color" class="color {{c}} "></span>
             <h5>Winrate out of <span>{{deck.wins + deck.losses}}</span> matches</h5>
