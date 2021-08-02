@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
-    <script src="app.js"></script>
+    <script src="./app.js"></script>
     
 </head>
 <body ng-controller="WinController as wr">
@@ -48,6 +48,16 @@
                     class="{{(deck.wins + deck.losses) > 4 ? (deck.wins / (deck.wins + deck.losses)) * 100 >= 55 ? 'good' : 'bad' : ''}}"
                     >% {{(deck.wins / (deck.wins + deck.losses)) * 100 | number:2}}</p>
                 </div>
+
+                <ul class="dropdown">
+                    <div class="select-option" ng-click="wr.displayLI(true)">General</div>
+                    <span class="{{wr.display}}">
+                        <li>General</li>
+                        <li class="selected">Play</li>
+                        <li>Ranked</li>
+                        <li ng-click="wr.displayLI()">Standard Event</li>
+                    </span>
+                </ul>
                 <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.wins}}
                 <button ng-click="wr.changeRecord('loss', deck.id)">Loss</button> {{deck.losses}}
                 <button ng-click="wr.changeRecord('wipe', deck.id)">Clear Record</button>

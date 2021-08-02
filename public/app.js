@@ -4,6 +4,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     const ctrl = this;
     this.colorArr = []
     this.decks = []
+    this.display = "hidden";
 
     $window.onload = () => {
         $http({method:'GET', url: '/deck'})
@@ -16,6 +17,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 d.color = colors
 
                 d.wl_logg = JSON.parse(d.wl_logg)
+                d.wl_catigories = JSON.parse(d.wl_catigories)
             })
 
             ctrl.decks = decks
@@ -32,6 +34,11 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
             if(ctrl.colorArr[i] === str) hasColor = true
         }
         if(!hasColor) ctrl.colorArr.push(str)
+    }
+
+    this.displayLI = (bool) => {
+        if(bool) ctrl.display = ""
+        else ctrl.display = "hidden"
     }
 
     this.removeColor = (str) => {
@@ -54,17 +61,26 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 id: highestNum,
                 wins : 0,
                 losses : 0,
-                wl_logg: '[{"w":0,"l":0}]'
+                wl_logg: '[{"w":0,"l":0}]',
+                wl_catigories : '[' +
+                    '{"catigorie" : "General", "w" :0, "l":0} ,' +
+                    '{"catigorie" : "Play", "w":0,"l":0} ,'+
+                    '{"catigorie" : "Standard Ranked", "w":0,"l":0} ,'+
+                    '{"catigorie" : "Standard Event", "w":0,"l":0} ,'+
+                    '{"catigorie" : "Standard Play 2022", "w":0,"l":0} ,'+
+                    '{"catigorie" : "Standard Ranked 2022", "w":0,"l":0}'+
+                ']'
             }
             let color = ""
             ctrl.colorArr.forEach(c => {color += `${c},`});
             obj.color = color
             
-            // console.log(obj)
+            console.log(obj)
             $http({method:'POST', url: '/deck', data: obj})
             .then(res => {
                 obj.color = ctrl.colorArr
                 obj.wl_logg = [{w :0, l: 0}]
+                obj.wl_catigories = JSON.parse(obj.wl_catigories)
 
                 ctrl.decks.unshift(obj)
                 ctrl.name= ""
@@ -83,12 +99,24 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     this.changeRecord = (str, id) => {
         for(let i = 0; i < ctrl.decks.length; i++){
             if(ctrl.decks[i].id === id){
-                if(str === 'win') ctrl.decks[i].wins += 1
-                else if(str === 'loss') ctrl.decks[i].losses += 1
+                if(str === 'win') {
+                    ctrl.decks[i].wins += 1
+                    ctrl.decks[i].wl_catigories[0].w += 1
+                }
+                else if(str === 'loss') {
+                    ctrl.decks[i].losses += 1
+                    ctrl.decks[i].wl_catigories[0].l += 1
+                }
                 else if(str === 'wipe') {
                     ctrl.decks[i].losses = 0;
                     ctrl.decks[i].wins = 0;
+                    ctrl.decks[i].wl_catigories.forEach(c =>{
+                        c.w = 0;
+                        c.l = 0;
+                    })
                 }
+
+                ctrl.decks[i].wl_catigories = JSON.stringify(ctrl.decks[i].wl_catigories)
 
                 // adding new record to a logg
                 let obj = {w: ctrl.decks[i].wins, l :ctrl.decks[i].losses}
@@ -98,7 +126,10 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
 
 
                 $http({method:'PUT', url: '/deck', data: ctrl.decks[i]})
-                .then(res => ctrl.decks[i].wl_logg = JSON.parse(ctrl.decks[i].wl_logg))
+                .then(res => {
+                    ctrl.decks[i].wl_logg = JSON.parse(ctrl.decks[i].wl_logg);
+                    ctrl.decks[i].wl_catigories = JSON.parse(ctrl.decks[i].wl_catigories)
+                })
                 .catch(err => console.log(err))
             }
         }

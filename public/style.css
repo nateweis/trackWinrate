@@ -21,7 +21,7 @@
     font-family: "Eczar";
     text-align: center;
 }
-button, input{
+button, input, select{
     font-family:"Eczar" ;
 }
 .flex{
@@ -58,6 +58,37 @@ button, input{
     color: rgb(231, 225, 225);
     border-radius: 4%;
     box-shadow: 0 0 15px rgb(231, 225, 225);
+}
+.dropdown{
+    display: block;
+    width: 170px;
+    position: relative;
+}
+.select-option{
+    color: rgb(54, 53, 53);
+    background-color: rgb(231, 225, 225);
+    cursor: pointer;
+    margin: 4px auto;
+    width: 95%;
+}
+.dropdown li{
+    list-style: none;
+    color: rgb(54, 53, 53);
+    background-color: rgb(231, 225, 225);
+    border: 1px solid rgb(54, 53, 53);
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    width: 168px;
+    transition: all 0.3s;
+}
+.dropdown li:hover, .dropdown .selected{
+    background-color: rgb(54, 53, 53);
+    color: rgb(231, 225, 225);
+}
+.hidden{
+    display: none;
 }
 
 .icon-container{
