@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="./jquery_v3.6.0.min.js"></script>
+    <script src="./jqStyle.js"></script>
     <script src="./app.js"></script>
     
 </head>
@@ -51,10 +53,10 @@
 
                 <ul class="dropdown">
                     <div class="select-option" ng-click="wr.displayLI(true)">General</div>
-                    <span class="{{wr.display}}">
-                        <li>General</li>
-                        <li class="selected">Play</li>
-                        <li>Ranked</li>
+                    <span class="{{wr.display ? '' : 'hidden'}} options">
+                        <li ng-click="wr.displayLI()">General</li>
+                        <li ng-click="wr.displayLI()" class="selected">Play</li>
+                        <li ng-click="wr.displayLI()">Ranked</li>
                         <li ng-click="wr.displayLI()">Standard Event</li>
                     </span>
                 </ul>

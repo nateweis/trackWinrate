@@ -4,7 +4,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     const ctrl = this;
     this.colorArr = []
     this.decks = []
-    this.display = "hidden";
+    this.display = false;
 
     $window.onload = () => {
         $http({method:'GET', url: '/deck'})
@@ -37,9 +37,11 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     }
 
     this.displayLI = (bool) => {
-        if(bool) ctrl.display = ""
-        else ctrl.display = "hidden"
+        if(bool) ctrl.display = true
+        else ctrl.display = false
     }
+
+
 
     this.removeColor = (str) => {
         for(let i = 0; i < ctrl.colorArr.length; i++){
