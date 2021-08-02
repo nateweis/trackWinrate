@@ -1,7 +1,7 @@
 const db = require('../db/db_connection');
 
 const addDeck = (req, res) => {
-    db.none('INSERT INTO decks(id, name, wins, losses, color, last_update, wl_logg, wl_catigories)VALUES(${id}, ${name}, 0, 0, ${color}, NOW(), ${wl_logg}, ${wl_catigories})', req.body)
+    db.none('INSERT INTO decks(id, name, wins, losses, color, last_update, wl_logg, wl_catigories, selected_cat, dropdown) VALUES(${id}, ${name}, 0, 0, ${color}, NOW(), ${wl_logg}, ${wl_catigories}, ${selected_cat}, false)', req.body)
     .then(() => res.json({message: "The Deck Has Been Saved", status: 200}))
     .catch(err => res.json({message: "ERR On Deck Save", err, status: 402}))
 }

@@ -52,12 +52,10 @@
                 </div>
 
                 <ul class="dropdown">
-                    <div class="select-option" ng-click="wr.displayLI(true)">General</div>
-                    <span class="{{wr.display ? '' : 'hidden'}} options">
-                        <li ng-click="wr.displayLI()">General</li>
-                        <li ng-click="wr.displayLI()" class="selected">Play</li>
-                        <li ng-click="wr.displayLI()">Ranked</li>
-                        <li ng-click="wr.displayLI()">Standard Event</li>
+                    <div class="select-option" ng-click="wr.displayLI(deck.id ,true)">{{deck.selected_cat}}</div>
+                    <span class="{{deck.dropdown ? '' : 'hidden'}} options">
+                        <li ng-repeat="catig in deck.wl_catigories" ng-click="wr.selectLI(deck.id, catig)"
+                        class="{{catig.selected? 'selected': ''}}">{{catig.catigorie}}</li>
                     </span>
                 </ul>
                 <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.wins}}

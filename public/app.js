@@ -36,12 +36,27 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
         if(!hasColor) ctrl.colorArr.push(str)
     }
 
-    this.displayLI = (bool) => {
-        if(bool) ctrl.display = true
-        else ctrl.display = false
+    this.displayLI = (id, bool) => {
+        ctrl.decks.forEach(d => {
+            if(d.id === id) d.dropdown = bool
+        })
     }
 
+    this.selectLI = (deck, catig) => {
+        ctrl.decks.forEach(d =>{
+            if(d.id === deck){
+                for(let i = 0; i < d.wl_catigories.length; i++){
+                    d.wl_catigories[i].selected = false;
 
+                    if(d.wl_catigories[i].catigorie === catig.catigorie){
+                        d.wl_catigories[i].selected = true;
+                        d.selected_cat = catig.catigorie;
+                    }
+                }
+            }
+        })
+        ctrl.displayLI(deck, false)
+    }
 
     this.removeColor = (str) => {
         for(let i = 0; i < ctrl.colorArr.length; i++){
@@ -65,13 +80,15 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 losses : 0,
                 wl_logg: '[{"w":0,"l":0}]',
                 wl_catigories : '[' +
-                    '{"catigorie" : "General", "w" :0, "l":0} ,' +
-                    '{"catigorie" : "Play", "w":0,"l":0} ,'+
-                    '{"catigorie" : "Standard Ranked", "w":0,"l":0} ,'+
-                    '{"catigorie" : "Standard Event", "w":0,"l":0} ,'+
-                    '{"catigorie" : "Standard Play 2022", "w":0,"l":0} ,'+
-                    '{"catigorie" : "Standard Ranked 2022", "w":0,"l":0}'+
-                ']'
+                    '{"catigorie" : "General", "w" :0, "l":0, "selected" : true} ,' +
+                    '{"catigorie" : "Play", "w":0,"l":0, "selected" : false} ,'+
+                    '{"catigorie" : "Standard Ranked", "w":0,"l":0, "selected" : false} ,'+
+                    '{"catigorie" : "Standard Event", "w":0,"l":0, "selected" : false} ,'+
+                    '{"catigorie" : "Standard Play 2022", "w":0,"l":0, "selected" : false} ,'+
+                    '{"catigorie" : "Standard Ranked 2022", "w":0,"l":0, "selected" : false}'+
+                ']',
+                selected_cat : 'General',
+                dropdown: false
             }
             let color = ""
             ctrl.colorArr.forEach(c => {color += `${c},`});
