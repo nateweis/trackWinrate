@@ -45,21 +45,21 @@
 
                     <h3>{{deck.name}}</h3>
                     <span ng-repeat="c in deck.color" class="color {{c}} "></span>
-                    <h5>Winrate out of <span>{{deck.wins + deck.losses}}</span> matches</h5>
+                    <h5>Winrate out of <span>{{deck.selected_cat.w + deck.selected_cat.l}}</span> matches</h5>
                     <p
-                    class="{{(deck.wins + deck.losses) > 4 ? (deck.wins / (deck.wins + deck.losses)) * 100 >= 55 ? 'good' : 'bad' : ''}}"
-                    >% {{(deck.wins / (deck.wins + deck.losses)) * 100 | number:2}}</p>
+                    class="{{(deck.selected_cat.w + deck.selected_cat.l) > 4 ? (deck.selected_cat.w / (deck.selected_cat.w + deck.selected_cat.l)) * 100 >= 55 ? 'good' : 'bad' : ''}}"
+                    >% {{(deck.selected_cat.w / (deck.selected_cat.w + deck.selected_cat.l)) * 100 | number:2}}</p>
                 </div>
 
                 <ul class="dropdown">
-                    <div class="select-option" ng-click="wr.displayLI(deck.id ,true)">{{deck.selected_cat}}</div>
+                    <div class="select-option" ng-click="wr.displayLI(deck.id ,true)">{{deck.selected_cat.catigorie}}</div>
                     <span class="{{deck.dropdown ? '' : 'hidden'}} options">
-                        <li ng-repeat="catig in deck.wl_catigories" ng-click="wr.selectLI(deck.id, catig)"
+                        <li ng-repeat="catig in deck.wl_catigories track by $index" ng-click="wr.selectLI(deck.id, catig)"
                         class="{{catig.selected? 'selected': ''}}">{{catig.catigorie}}</li>
                     </span>
                 </ul>
-                <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.wins}}
-                <button ng-click="wr.changeRecord('loss', deck.id)">Loss</button> {{deck.losses}}
+                <button ng-click="wr.changeRecord('win', deck.id)" >Win</button> {{deck.selected_cat.w}}
+                <button ng-click="wr.changeRecord('loss', deck.id)">Loss</button> {{deck.selected_cat.l}}
                 <button ng-click="wr.changeRecord('wipe', deck.id)">Clear Record</button>
             </div>
         </div>

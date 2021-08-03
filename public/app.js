@@ -18,6 +18,10 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
 
                 d.wl_logg = JSON.parse(d.wl_logg)
                 d.wl_catigories = JSON.parse(d.wl_catigories)
+
+                d.wl_catigories.forEach(cat => {cat.selected = false})
+                d.wl_catigories[0].selected = true
+                d.selected_cat = d.wl_catigories[0]
             })
 
             ctrl.decks = decks
@@ -50,7 +54,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
 
                     if(d.wl_catigories[i].catigorie === catig.catigorie){
                         d.wl_catigories[i].selected = true;
-                        d.selected_cat = catig.catigorie;
+                        d.selected_cat = catig;
                     }
                 }
             }
@@ -76,9 +80,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 name: ctrl.name,
                 color: {},
                 id: highestNum,
-                wins : 0,
-                losses : 0,
-                wl_logg: '[{"w":0,"l":0}]',
+                wl_logg: '[{"catigorie" : "General", "w" :0, "l":0, "selected" : true}]',
                 wl_catigories : '[' +
                     '{"catigorie" : "General", "w" :0, "l":0, "selected" : true} ,' +
                     '{"catigorie" : "Play", "w":0,"l":0, "selected" : false} ,'+
@@ -87,7 +89,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                     '{"catigorie" : "Standard Play 2022", "w":0,"l":0, "selected" : false} ,'+
                     '{"catigorie" : "Standard Ranked 2022", "w":0,"l":0, "selected" : false}'+
                 ']',
-                selected_cat : 'General',
+                selected_cat : '{"catigorie" : "General", "w" :0, "l":0, "selected" : true}',
                 dropdown: false
             }
             let color = ""
@@ -118,28 +120,36 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
     this.changeRecord = (str, id) => {
         for(let i = 0; i < ctrl.decks.length; i++){
             if(ctrl.decks[i].id === id){
-                if(str === 'win') {
-                    ctrl.decks[i].wins += 1
-                    ctrl.decks[i].wl_catigories[0].w += 1
-                }
-                else if(str === 'loss') {
-                    ctrl.decks[i].losses += 1
-                    ctrl.decks[i].wl_catigories[0].l += 1
-                }
-                else if(str === 'wipe') {
-                    ctrl.decks[i].losses = 0;
-                    ctrl.decks[i].wins = 0;
-                    ctrl.decks[i].wl_catigories.forEach(c =>{
-                        c.w = 0;
-                        c.l = 0;
-                    })
-                }
 
+                let daDeck = ctrl.decks[i]
+                daDeck.wl_catigories.forEach(cat => {
+                    if(str === 'wipe'){
+                        cat.w = 0;
+                        cat.l = 0;
+                    }
+
+                    if(cat.selected){
+                        if(str === 'win'){
+                            cat.w += 1;
+                            if(cat.catigorie !== daDeck.wl_catigories[0].catigorie) daDeck.wl_catigories[0].w += 1
+                        }
+                        else if (str === 'loss'){
+                            cat.l += 1;
+                            if(cat.catigorie !== daDeck.wl_catigories[0].catigorie) daDeck.wl_catigories[0].l += 1;
+                        }
+
+                        daDeck.selected_cat = cat;
+                    }
+                })
+                
+
+
+                daDeck.selected_cat = JSON.stringify(daDeck.selected_cat)
                 ctrl.decks[i].wl_catigories = JSON.stringify(ctrl.decks[i].wl_catigories)
 
                 // adding new record to a logg
-                let obj = {w: ctrl.decks[i].wins, l :ctrl.decks[i].losses}
-                ctrl.decks[i].wl_logg.unshift(obj)
+                let arr = daDeck.wl_catigories
+                ctrl.decks[i].wl_logg.unshift(arr)
                 if(ctrl.decks[i].wl_logg.length > 6) ctrl.decks[i].wl_logg.pop() //keeping only 5 logs stored max
                 ctrl.decks[i].wl_logg = JSON.stringify(ctrl.decks[i].wl_logg)
 
@@ -147,12 +157,12 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 $http({method:'PUT', url: '/deck', data: ctrl.decks[i]})
                 .then(res => {
                     ctrl.decks[i].wl_logg = JSON.parse(ctrl.decks[i].wl_logg);
-                    ctrl.decks[i].wl_catigories = JSON.parse(ctrl.decks[i].wl_catigories)
+                    ctrl.decks[i].wl_catigories = JSON.parse(ctrl.decks[i].wl_catigories);
+                    ctrl.decks[i].selected_cat = JSON.parse(ctrl.decks[i].selected_cat);
                 })
                 .catch(err => console.log(err))
             }
         }
-        console.log(ctrl.decks)
     }
 
     // ///////////////////////////////////
@@ -179,13 +189,16 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 
                 if(dRef.wl_logg.length > 1){
                     dRef.wl_logg.shift()
-                    dRef.wins = dRef.wl_logg[0].w
-                    dRef.losses = dRef.wl_logg[0].l
-                    ctrl.decks[i].wl_logg = JSON.stringify(ctrl.decks[i].wl_logg)
-                              
+                    dRef.wl_catigories = dRef.wl_logg[0]
+                    
+                    ctrl.decks[i].wl_logg = JSON.stringify(ctrl.decks[i].wl_logg)   
 
                     $http({method:'PUT', url: '/deck', data: ctrl.decks[i]})
-                    .then(res => ctrl.decks[i].wl_logg = JSON.parse(ctrl.decks[i].wl_logg))
+                    .then(res => {
+                        ctrl.decks[i].wl_logg = JSON.parse(ctrl.decks[i].wl_logg);
+                        ctrl.decks[i].wl_catigories = JSON.parse(ctrl.decks[i].wl_catigories);
+                        ctrl.decks[i].wl_catigories.forEach(cat => {if(cat.selected) ctrl.decks[i].selected_cat = cat})
+                    })
                     .catch(err => console.log(err))
 
                 }
