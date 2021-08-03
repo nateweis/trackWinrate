@@ -23,9 +23,7 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
                 d.wl_catigories[0].selected = true
                 d.selected_cat = d.wl_catigories[0]
             })
-
             ctrl.decks = decks
-            console.log(ctrl.decks)
         })
         .catch(err => console.log(err))
 
@@ -96,12 +94,12 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
             ctrl.colorArr.forEach(c => {color += `${c},`});
             obj.color = color
             
-            console.log(obj)
             $http({method:'POST', url: '/deck', data: obj})
             .then(res => {
                 obj.color = ctrl.colorArr
                 obj.wl_logg = [{w :0, l: 0}]
                 obj.wl_catigories = JSON.parse(obj.wl_catigories)
+                obj.selected_cat = JSON.parse(obj.selected_cat)
 
                 ctrl.decks.unshift(obj)
                 ctrl.name= ""
@@ -172,7 +170,6 @@ app.controller('WinController', ['$http', '$window', function($http, $window){
         if(confirm("Are you sure you want to delete deck? Deleting deck can not be undone.")){
             $http({method:'DELETE', url: '/deck/' + id})
             .then(res => {
-                console.log(res.data)
                 for(let i = 0; i < ctrl.decks.length; i++) {if(ctrl.decks[i].id === id) ctrl.decks.splice(i, 1)}
             })
             .catch(err => console.log(err))
